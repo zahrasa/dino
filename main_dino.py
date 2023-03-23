@@ -434,7 +434,7 @@ class DataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+            transforms.Normalize((0.485), (0.229)),
         ])
 
         # first global crop
@@ -442,7 +442,7 @@ class DataAugmentationDINO(object):
             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
 #             utils.GaussianBlur(1.0),
-# #             normalize,
+#             normalize,
         ])
 
         # second global crop
@@ -462,7 +462,6 @@ class DataAugmentationDINO(object):
 #             utils.GaussianBlur(p=0.5),
 #             normalize,
         ])
-
 
         
         
