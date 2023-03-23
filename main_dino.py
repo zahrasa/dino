@@ -443,6 +443,7 @@ class DataAugmentationDINO(object):
               rotation_transform,
 #             utils.GaussianBlur(1.0),
 #             normalize,
+              transforms.ToTensor()
         ])
 
         # second global crop
@@ -452,6 +453,7 @@ class DataAugmentationDINO(object):
 #             utils.GaussianBlur(0.1),
 #             utils.Solarization(0.2),
 #             normalize,
+              transforms.ToTensor()
         ])
         
         # transformation for the local small crops
@@ -461,6 +463,7 @@ class DataAugmentationDINO(object):
               rotation_transform,
 #             utils.GaussianBlur(p=0.5),
 #             normalize,
+              transforms.ToTensor()
         ])
 
         
