@@ -416,36 +416,59 @@ class DINOLoss(nn.Module):
         self.center = self.center * self.center_momentum + batch_center * (1 - self.center_momentum)
 
 
+        
+        
+        
+import torchvision.transforms.functional as TF
+import random
+
+class CustomRotationTransform:
+    """Rotate by one of the given angles."""
+    def __call__(self, x):
+        angle = random.choice([0, 90, 180, 270])
+        return TF.rotate(x, angle)
+
+
 class DataAugmentationDINO(object):
     def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
+        rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.485), (0.229)),
+            transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-            utils.GaussianBlur(1.0),
-            normalize,
+            rotation_transform,
+#             utils.GaussianBlur(1.0),
+# #             normalize,
         ])
-        
+
         # second global crop
         self.global_transfo2 = transforms.Compose([
             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-            utils.GaussianBlur(0.1),
-            utils.Solarization(0.2),
-            normalize,
+            rotation_transform,
+#             utils.GaussianBlur(0.1),
+#             utils.Solarization(0.2),
+#             normalize,
         ])
         
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
             transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
-            utils.GaussianBlur(p=0.5),
-            normalize,
+            rotation_transform,
+#             utils.GaussianBlur(p=0.5),
+#             normalize,
         ])
 
+
+        
+        
+        
+        
+        
     def __call__(self, image):
         crops = []
         crops.append(self.global_transfo1(image))
