@@ -432,7 +432,7 @@ class DataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1367), (0.1683)),
+            transforms.Normalize((0.1362), (0.1675)),
         ])
 
         # first global crop
