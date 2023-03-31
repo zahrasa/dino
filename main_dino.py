@@ -417,8 +417,6 @@ class DINOLoss(nn.Module):
 
 
         
-        
-        
 import torchvision.transforms.functional as TF
 import random
 
@@ -434,14 +432,15 @@ class DataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.485), (0.229)),
+            transforms.Normalize((0.1367), (0.1683)),
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
 #             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-              rotation_transform,
+#             rotation_transform,
 #             utils.GaussianBlur(1.0),
+              utils.Solarization(0.2),
 #             normalize,
               transforms.ToTensor()
         ])
@@ -449,9 +448,9 @@ class DataAugmentationDINO(object):
         # second global crop
         self.global_transfo2 = transforms.Compose([
 #             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-              rotation_transform,
-#             utils.GaussianBlur(0.1),
-#             utils.Solarization(0.2),
+#             rotation_transform,
+#   #########          utils.GaussianBlur(0.1),
+              utils.Solarization(0.2),
 #             normalize,
               transforms.ToTensor()
         ])
@@ -460,8 +459,9 @@ class DataAugmentationDINO(object):
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
 #             transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
-              rotation_transform,
+#             rotation_transform,
 #             utils.GaussianBlur(p=0.5),
+              utils.Solarization(0.2),
 #             normalize,
               transforms.ToTensor()
         ])
