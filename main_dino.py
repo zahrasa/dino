@@ -437,39 +437,30 @@ class DataAugmentationDINO(object):
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-#             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-#             rotation_transform,
-#             utils.GaussianBlur(1.0),
-              utils.Solarization(0.2),
-#             normalize,
-              transforms.ToTensor()
+            transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
+            utils.GaussianBlur(1.0),
+            normalize
         ])
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-#             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
-#             rotation_transform,
-#   #########          utils.GaussianBlur(0.1),
+            transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
+              utils.GaussianBlur(0.1),
               utils.Solarization(0.2),
-#             normalize,
-              transforms.ToTensor()
+              normalize
         ])
         
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
-#             transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
-#             rotation_transform,
-#             utils.GaussianBlur(p=0.5),
-              utils.Solarization(0.2),
-#             normalize,
-              transforms.ToTensor()
+            transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
+            utils.GaussianBlur(p=0.5),
+            normalize
         ])
-
-        
-        
-        
-        
+   
         
     def __call__(self, image):
         crops = []
