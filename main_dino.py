@@ -460,6 +460,35 @@ class DataAugmentationDINO(object):
             normalize,
         ])
    
+
+class val_DataAugmentationDINO(object):
+    def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
+        rotation_transform = CustomRotationTransform()
+        normalize = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.1366), (0.1688)),
+        ])
+
+        # first global crop
+        self.global_transfo1 = transforms.Compose([
+            transforms.CenterCrop((224, 224)),
+            normalize,
+        ])
+
+        # second global crop
+        self.global_transfo2 = transforms.Compose([
+            transforms.CenterCrop((224, 224)),
+            rotation_transform,
+            normalize,
+        ])
+        
+        # transformation for the local small crops
+        self.local_crops_number = local_crops_number
+        self.local_transfo = transforms.Compose([
+            transforms.CenterCrop((96, 96)),
+            normalize,
+        ])
+
         
     def __call__(self, image):
         crops = []
