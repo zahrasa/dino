@@ -459,7 +459,15 @@ class DataAugmentationDINO(object):
             utils.GaussianBlur(p=0.5),
             normalize,
         ])
-   
+
+    def __call__(self, image):
+        crops = []
+        crops.append(self.global_transfo1(image))
+        crops.append(self.global_transfo2(image))
+        for _ in range(self.local_crops_number):
+            crops.append(self.local_transfo(image))
+        return crops    
+        
 
 class ValDataAugmentationDINO(object):
     def __init__(self, local_crops_scale, local_crops_number):
