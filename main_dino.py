@@ -461,7 +461,7 @@ class DataAugmentationDINO(object):
         ])
    
 
-class val_DataAugmentationDINO(object):
+class ValDataAugmentationDINO(object):
     def __init__(self, local_crops_scale, local_crops_number):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
