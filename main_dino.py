@@ -462,7 +462,7 @@ class DataAugmentationDINO(object):
    
 
 class val_DataAugmentationDINO(object):
-    def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
+    def __init__(self, local_crops_number):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
