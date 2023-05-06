@@ -437,14 +437,16 @@ class DataAugmentationDINO(object):
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
+            transforms.CenterCrop((200, 200)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
-            utils.GaussianBlur(p=1.0),
+            # utils.GaussianBlur(p=1.0),
             normalize,
         ])
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
+            transforms.CenterCrop((200, 200)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             utils.GaussianBlur(p=0.1),
@@ -454,9 +456,10 @@ class DataAugmentationDINO(object):
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
+            transforms.CenterCrop((200, 200)), # aaded
             transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
-            utils.GaussianBlur(p=0.5),
+            # utils.GaussianBlur(p=0.5),
             normalize,
         ])
 
