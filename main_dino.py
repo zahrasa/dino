@@ -450,7 +450,7 @@ class DataAugmentationDINO(object):
             transforms.CenterCrop((200, 200)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
-            utils.GaussianBlur(p=0.1),
+            # utils.GaussianBlur(p=0.1),
             normalize,
         ])
         
