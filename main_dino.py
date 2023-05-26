@@ -432,9 +432,8 @@ class DataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1918), (0.1757)), # all, 200centercrop
+            transforms.Normalize(mean=[0.1917], std=[0.1757]), # all, 200centercrop
             # transforms.Normalize((0.1366), (0.1688)), # all
-            # transforms.Normalize((0.1882), (0.1625)), # ICBM, 200centercrop
         ])
 
         # first global crop
@@ -479,27 +478,29 @@ class ValDataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1918), (0.1757)), # all, 200centercrop
+            transforms.Normalize(mean=[0.1917], std=[0.1757]), # all, 200centercrop
             # transforms.Normalize((0.1366), (0.1688)), # all
-            # transforms.Normalize((0.1882), (0.1625)), # ICBM, 200centercrop
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-            transforms.CenterCrop((224, 224)),
+            transforms.CenterCrop((200, 200)),
+            transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
+            utils.GaussianBlur(p=1.0),
             normalize,
         ])
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-            transforms.CenterCrop((224, 224)),
-            rotation_transform,
+            transforms.CenterCrop((200, 200)),
+            transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
             normalize,
         ])
         
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
+            transforms.CenterCrop((200, 200)), # aaded
             transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
             normalize,
         ])
