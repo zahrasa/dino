@@ -422,9 +422,9 @@ import random
 
 class CustomRotationTransform:
     """Rotate by one of the given angles."""
-    def __call__(self, x):
+    def __call__(self, img):
         angle = random.choice([0, 90, 180, 270])
-        return TF.rotate(x, angle)
+        return TF.rotate(img, angle)
 
 
 class DataAugmentationDINO(object):
