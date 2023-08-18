@@ -432,12 +432,12 @@ class DataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.1909], std=[0.1751]), # all, 200centercrop
+            transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-            transforms.CenterCrop((200, 200)), #added
+            transforms.CenterCrop((125, 125)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             utils.GaussianBlur(p=1.0),
@@ -446,7 +446,7 @@ class DataAugmentationDINO(object):
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-            transforms.CenterCrop((200, 200)), #added
+            transforms.CenterCrop((125, 125)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
@@ -455,7 +455,7 @@ class DataAugmentationDINO(object):
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
-            transforms.CenterCrop((200, 200)), # aaded
+            transforms.CenterCrop((125, 125)), # aaded
             transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             utils.GaussianBlur(p=0.10),
@@ -476,12 +476,12 @@ class ValDataAugmentationDINO(object):
         rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.1909], std=[0.1751]), # all, 200centercrop
+            transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-            transforms.CenterCrop((200, 200)),
+            transforms.CenterCrop((125, 125)),
             transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
@@ -489,7 +489,7 @@ class ValDataAugmentationDINO(object):
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-            transforms.CenterCrop((200, 200)),
+            transforms.CenterCrop((125, 125)),
             transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
@@ -498,7 +498,7 @@ class ValDataAugmentationDINO(object):
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
-            transforms.CenterCrop((200, 200)), # aaded
+            transforms.CenterCrop((125, 125)), # aaded
             transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
             normalize,
         ])
