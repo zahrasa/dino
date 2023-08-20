@@ -429,7 +429,6 @@ import random
 
 class DataAugmentationDINO(object):
     def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
-        # rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
@@ -439,7 +438,6 @@ class DataAugmentationDINO(object):
         self.global_transfo1 = transforms.Compose([
             transforms.CenterCrop((125, 125)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
-            rotation_transform,
             utils.GaussianBlur(p=1.0),
             normalize,
         ])
@@ -448,7 +446,6 @@ class DataAugmentationDINO(object):
         self.global_transfo2 = transforms.Compose([
             transforms.CenterCrop((125, 125)), #added
             transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
-            rotation_transform,
             normalize,
         ])
         
@@ -456,8 +453,7 @@ class DataAugmentationDINO(object):
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
             transforms.CenterCrop((125, 125)), # aaded
-            transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
-            rotation_transform,
+            transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),            
             utils.GaussianBlur(p=0.10),
             normalize,
         ])
@@ -473,7 +469,6 @@ class DataAugmentationDINO(object):
 
 class ValDataAugmentationDINO(object):
     def __init__(self, local_crops_scale, local_crops_number):
-        # rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
@@ -483,7 +478,6 @@ class ValDataAugmentationDINO(object):
         self.global_transfo1 = transforms.Compose([
             transforms.CenterCrop((125, 125)),
             transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
-            rotation_transform,
             normalize,
         ])
 
@@ -491,7 +485,6 @@ class ValDataAugmentationDINO(object):
         self.global_transfo2 = transforms.Compose([
             transforms.CenterCrop((125, 125)),
             transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
-            rotation_transform,
             normalize,
         ])
         
