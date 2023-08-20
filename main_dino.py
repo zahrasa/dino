@@ -420,16 +420,16 @@ class DINOLoss(nn.Module):
 import torchvision.transforms.functional as TF
 import random
 
-class CustomRotationTransform:
-    """Rotate by one of the given angles."""
-    def __call__(self, img):
-        angle = random.choice([0, 90, 180, 270])
-        return TF.rotate(img, angle)
+# class CustomRotationTransform:
+#     """Rotate by one of the given angles."""
+#     def __call__(self, img):
+#         angle = random.choice([0, 90, 180, 270])
+#         return TF.rotate(img, angle)
 
 
 class DataAugmentationDINO(object):
     def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
-        rotation_transform = CustomRotationTransform()
+        # rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
@@ -473,7 +473,7 @@ class DataAugmentationDINO(object):
 
 class ValDataAugmentationDINO(object):
     def __init__(self, local_crops_scale, local_crops_number):
-        rotation_transform = CustomRotationTransform()
+        # rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
