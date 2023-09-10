@@ -420,41 +420,45 @@ class DINOLoss(nn.Module):
 import torchvision.transforms.functional as TF
 import random
 
-# class CustomRotationTransform:
-#     """Rotate by one of the given angles."""
-#     def __call__(self, img):
-#         angle = random.choice([0, 90, 180, 270])
-#         return TF.rotate(img, angle)
+class CustomRotationTransform:
+    """Rotate by one of the given angles."""
+    def __call__(self, img):
+        angle = random.choice([0, 90, 180, 270])
+        return TF.rotate(img, angle)
 
 
 class DataAugmentationDINO(object):
     def __init__(self, global_crops_scale, local_crops_scale, local_crops_number):
+        rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
+            transforms.Normalize(mean=[0.31], std=[0.32]), # all, 200centercrop
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-            transforms.CenterCrop((125, 125)), #added
-            transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            transforms.CenterCrop((150, 150)), #added
+            transforms.RandomResizedCrop(size=(144,144), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
             utils.GaussianBlur(p=1.0),
             normalize,
         ])
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-            transforms.CenterCrop((125, 125)), #added
-            transforms.RandomResizedCrop(size=(224,224), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            transforms.CenterCrop((150, 150)), #added
+            transforms.RandomResizedCrop(size=(144,144), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
             normalize,
         ])
         
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
-            transforms.CenterCrop((125, 125)), # aaded
-            transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),            
-            utils.GaussianBlur(p=0.10),
+            transforms.CenterCrop((150, 150)), # aaded
+            transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
+            rotation_transform,
+            utils.GaussianBlur(p=0.01),
             normalize,
         ])
 
@@ -469,29 +473,32 @@ class DataAugmentationDINO(object):
 
 class ValDataAugmentationDINO(object):
     def __init__(self, local_crops_scale, local_crops_number):
+        rotation_transform = CustomRotationTransform()
         normalize = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.2996], std=[0.3015]), # all, 200centercrop
+            transforms.Normalize(mean=[0.31], std=[0.32]), # all, 200centercrop
         ])
 
         # first global crop
         self.global_transfo1 = transforms.Compose([
-            transforms.CenterCrop((125, 125)),
-            transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
+            transforms.CenterCrop((150, 150)),
+            transforms.Resize(size=(144,144), interpolation=Image.BICUBIC),
+            rotation_transform,
             normalize,
         ])
 
         # second global crop
         self.global_transfo2 = transforms.Compose([
-            transforms.CenterCrop((125, 125)),
-            transforms.Resize(size=(224,224), interpolation=Image.BICUBIC),
+            transforms.CenterCrop((150, 150)),
+            transforms.Resize(size=(144,144), interpolation=Image.BICUBIC),
+            rotation_transform,
             normalize,
         ])
         
         # transformation for the local small crops
         self.local_crops_number = local_crops_number
         self.local_transfo = transforms.Compose([
-            transforms.CenterCrop((125, 125)), # aaded
+            transforms.CenterCrop((150, 150)), # aaded
             transforms.RandomResizedCrop(size=(96,96), scale=local_crops_scale, interpolation=Image.BICUBIC),
             normalize,
         ])
