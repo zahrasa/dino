@@ -438,7 +438,7 @@ class DataAugmentationDINO(object):
         # first global crop
         self.global_transfo1 = transforms.Compose([
             transforms.CenterCrop((150, 150)), #added
-            transforms.RandomResizedCrop(size=(144,144), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            transforms.RandomResizedCrop(size=(124,124), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             utils.GaussianBlur(p=1.0),
             normalize,
@@ -447,7 +447,7 @@ class DataAugmentationDINO(object):
         # second global crop
         self.global_transfo2 = transforms.Compose([
             transforms.CenterCrop((150, 150)), #added
-            transforms.RandomResizedCrop(size=(144,144), scale=global_crops_scale, interpolation=Image.BICUBIC),
+            transforms.RandomResizedCrop(size=(124,124), scale=global_crops_scale, interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
         ])
@@ -482,7 +482,7 @@ class ValDataAugmentationDINO(object):
         # first global crop
         self.global_transfo1 = transforms.Compose([
             transforms.CenterCrop((150, 150)),
-            transforms.Resize(size=(144,144), interpolation=Image.BICUBIC),
+            transforms.Resize(size=(124,124), interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
         ])
@@ -490,7 +490,7 @@ class ValDataAugmentationDINO(object):
         # second global crop
         self.global_transfo2 = transforms.Compose([
             transforms.CenterCrop((150, 150)),
-            transforms.Resize(size=(144,144), interpolation=Image.BICUBIC),
+            transforms.Resize(size=(124,124), interpolation=Image.BICUBIC),
             rotation_transform,
             normalize,
         ])
